@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import SpeakUserModel from "../models/USERMODEL";
 import nodemailer from "nodemailer";
 import Mailgen from "mailgen";
-import env from "../utils/ValidateEnv";
+// import env from "../utils/ValidateEnv";
 // express-session type declare
 
 const secretKey = "jahid404"; // Replace with your secret key
@@ -22,14 +22,15 @@ export const FeedBackMessage: RequestHandler = (req, res) => {
 	const config = {
 		service: "gmail",
 		auth: {
-			user: "emonchowdhury942858@gmail.com",
-			pass: "xznvtbggvsnqodsx",
+			user: "speakmoney00@gmail.com",
+			pass: "iaxfhvzubiiywpes",
 		},
 	};
 
 	const transporter = nodemailer.createTransport(config);
 
-	const MailGenerator = new Mailgen({
+	// Create a Mailgen instance with your custom styles
+	const mailGenerator = new Mailgen({
 		theme: "default",
 		product: {
 			name: "Speak Money",
@@ -37,27 +38,52 @@ export const FeedBackMessage: RequestHandler = (req, res) => {
 		},
 	});
 
-	const response = {
+	// Generate the email content
+	const email = {
 		body: {
-			name: "Username: Test",
-			intro: "Password: Test",
+			name: "Welcome to Speak Money",
+			intro: "Thank you for joining Speak Money.",
+			table: {
+				data: [
+					{
+						key: "Username",
+						value: "Test",
+					},
+					{
+						key: "Password",
+						value: "Test",
+					},
+				],
+			},
+			action: {
+				instructions:
+					"You can log in to your account using the button below:",
+				button: {
+					color: "#22BC66", // Customize the button color
+					text: "Log In",
+					link: "https://www.speakmoney.com", // Add your login link here
+				},
+			},
+			outro: "If you have any questions or need assistance, please contact us.",
 		},
 	};
 
-	const mail = MailGenerator.generate(response);
+	const emailTemplate = mailGenerator.generate(email);
 
+	// Define email message options
 	const message = {
-		from: mail,
+		from: "speakmoney00@gmail.com",
 		to: userEmail,
-		subject: "send mail",
-		html: mail,
+		subject: "Welcome to Speak Money",
+		html: emailTemplate,
 	};
 
+	// Send the email
 	transporter
 		.sendMail(message)
 		.then(() => {
 			return res.status(201).json({
-				msg: "you should receive an email",
+				msg: "You should receive an email.",
 			});
 		})
 		.catch((error: Error) => {
