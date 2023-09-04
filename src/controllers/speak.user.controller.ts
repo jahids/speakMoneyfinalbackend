@@ -61,7 +61,7 @@ export const FeedBackMessage: RequestHandler = (req, res) => {
 				button: {
 					color: "#22BC66", // Customize the button color
 					text: "Log In",
-					link: "https://www.speakmoney.com", // Add your login link here
+					link: "https://64f4cfd9dbe81d4052f3c126--guileless-elf-1b9888.netlify.app/login", // Add your login link here
 				},
 			},
 			outro: "If you have any questions or need assistance, please contact us.",
